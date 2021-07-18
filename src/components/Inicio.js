@@ -53,8 +53,7 @@ import {Grid} from '@material-ui/core';
         },
     });
 
-const Inicio = ({setPasoActivo}) => {
-
+const Inicio = ({pasoActivo, setPasoActivo}) => {
 
     //Funcion para hacer uso del MakeStyled
     const classes = useStyles();
@@ -66,10 +65,14 @@ const Inicio = ({setPasoActivo}) => {
     const anteriorPaso = () =>{
         setPasoActivo((pasoActual) => pasoActual - 1) 
     }
+    const alInicio = () =>{
+        setPasoActivo(-1)
+    }
 
     return (  
         <Grid 
-            container direction="row"   
+            container 
+            direction="row"   
             justifyContent="center"
             alignItems="center"
             className={clsx(classes.fondo, classes.fontFam)}
@@ -81,28 +84,48 @@ const Inicio = ({setPasoActivo}) => {
 
                     <Grid container spacing={4} className={clsx(classes.centrado, classes.mbut, classes.mtop)} justifyContent="center" >
                         <Grid item xs={12}>
-                             <Typography variant="h2" className={clsx(classes.texBlanco, classes.bold, classes.fontFam)} >¡Comencemos con tu matrícula!</Typography>
+                            {( pasoActivo === -1) 
+                                ? <Typography variant="h2" className={clsx(classes.texBlanco, classes.bold, classes.fontFam)}>
+                                    ¡Comencemos con tu matrícula!
+                                  </Typography> 
+                                : (
+                                  <Typography variant="h2" className={clsx(classes.texBlanco, classes.bold, classes.fontFam)}>
+                                    ¡Gracias! <br></br> Tu matricula esta en proceso
+                                  </Typography>
+                            ) }
                         </Grid>
                         <Grid item xs={4} >
-                            <Typography variant="h5" className={clsx(classes.texBlanco, classes.fontFam, classes.descripcion)} >Para comenzar a especializarte, vamos a realizar unas preguntas para dar un mejor servicio.</Typography>
+                            {( pasoActivo === -1) 
+                                ? <Typography variant="h5" className={clsx(classes.texBlanco, classes.fontFam, classes.descripcion)} >
+                                    Para comenzar a especializarte, vamos a realizar unas preguntas para dar un mejor servicio.
+                                  </Typography> 
+                                : (
+                                  <Typography variant="h5" className={clsx(classes.texBlanco, classes.fontFam, classes.descripcion)} >
+                                   La matricula solo sera efectiva una vez recibido el pago por tarjeta o transferencia. 
+                                  </Typography>
+                            ) }
                         </Grid>
                     </Grid>
                         
                     <Grid container xs={12} spacing={2} >
                         <Grid item className={classes.centrado} xs={12}>
-                            <Button className={classes.btn} variant="text" >
-                            <Typography variant="body1" className={clsx(classes.texBlanco, classes.fontFam)} onClick={() => siguientePaso(1)}>Comenzar</Typography> 
-                            </Button>
+                        {( pasoActivo === -1) 
+                                ? <Button className={classes.btn} variant="text" onClick={() => siguientePaso()}>
+                                    <Typography variant="body1" className={clsx(classes.texBlanco, classes.fontFam)} >Comenzar</Typography> 
+                                  </Button>
+                                : (
+                                  <Button className={classes.btn} variant="text" onClick={() => alInicio()}>
+                                    <Typography variant="body1" className={clsx(classes.texBlanco, classes.fontFam)} >Volver al inicio</Typography> 
+                                  </Button>
+                            ) }
                         </Grid>
                         <Grid item className={classes.centrado} xs={12}>
-                            <Button className={classes.btnPrevio} variant="text" >
-                            <Typography variant="body1" className={classes.fontFam} onClick={() => anteriorPaso(-1)} >Volver atrás</Typography>  
+                            <Button className={classes.btnPrevio} variant="text" onClick={() => anteriorPaso()} >
+                            <Typography variant="body1" className={classes.fontFam}  >Volver atrás</Typography>  
                             </Button>
                         </Grid> 
                     </Grid>
-                    
-                </Grid>  
-
+                </Grid> 
         </Grid>  
     );
 }
