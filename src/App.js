@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Grid } from '@material-ui/core';
-import Stepper from './components/Stepper';
 import Wizard from './components/Wizard';
 import Inicio from './components/Inicio';
 
